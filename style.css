@@ -1,0 +1,38 @@
+input{
+  direction: rtl;
+}
+.width-200{
+  width:200px;
+}
+table .invalidStudent,.invalidStudent .md-ink-ripple{
+  background:#f50057
+}
+table .existFamily,.existFamily .md-ink-ripple{
+  background:#00b0ff;
+}
+table .wasValid,.wasValid .md-ink-ripple{
+  background:#ffea00
+}
+ .table-title{
+  background-color: rgba(0,0,0,0.10);
+}
+th.md-column.md-active md-icon {
+    color: rgba(255, 255, 255, 0.9);
+}
+th.md-column md-icon {
+    color: rgba(255, 255, 255, 0.9);
+}
+.searchSelect{
+	width: 100px;
+	text-align: center;
+}
+md-input-container.hide-error-msg .md-errors-spacer:empty { display: none; }
+.md-toolbar-tools .md-button:not([disabled]):hover {
+  background-color: transparent;
+}
+table.md-table td.md-cell, table.md-table th.md-column{
+	text-align: right;
+}
+.mr-5{
+	margin-right: 5px!important;
+}

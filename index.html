@@ -1,0 +1,119 @@
+<html lang="he" ng-app="MyApp" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    		
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.css">
+      <link rel="stylesheet" href="style.css">
+      <title>Mashov Yifat</title>
+</head>
+
+<body>
+    <md-toolbar class="md-whiteframe-1dp">
+      <div class="md-toolbar-tools" layout-align="center">
+        <div class="md-title">
+        משוב פרטי</div>
+      </div>
+    </md-toolbar>
+  <div ng-controller="AppCtrl as ctrl">
+ <md-content class="md-padding">
+    <section layout="row" layout-sm="column" layout-margin layout-align="center center" layout-wrap>
+           <md-input-container >
+        <label>בית ספר</label>
+        <md-select class="width-200" ng-model="schoolItem" md-selected-text="schoolSelected()" placeholder="אנא בחר בית ספר">
+          <md-option ng-repeat="school in ::schoolList"  ng-value="school">{{school.name}}</md-option> 
+        </md-select> 
+      </md-input-container> 
+           <md-input-container>
+        <label>שנת לימוד</label>
+        <md-select class="width-200" ng-model="yearItem" md-selected-text="yearSelected()" ng-disabled="!schoolItem.years">
+          <md-option ng-repeat="year in schoolItem.years" ng-value="year">{{yearConverter[year]}}</md-option>
+        </md-select>
+      </md-input-container>   
+      <md-button id="initData" ng-click="resetAll()" ng-disabled="!schoolItem">אפס</md-button>
+      </section>
+    </md-content> 
+    <!--Toolbar-->
+     <md-toolbar>
+      <div class="md-toolbar-tools" layout-wrap>  
+      <md-button ng-click="showSearch=!showSearch" class="md-icon-button" aria-label="Search" ng-disabled="!students">
+          <md-icon md-icon>search</md-icon>
+        </md-button>    
+         <md-button ng-click="showSearch=!showSearch" aria-label="Search" ng-disabled="!students" class="mr-5">
+          <span>חיפוש סטודנט</span>
+        </md-button> 
+      </div>
+    </md-toolbar>
+         <div layout='row' layout-margin ng-show="showSearch" layout-align='center center'>
+                  <md-input-container class="hide-error-msg">
+          <label>ת״ז</label>
+          <input  ng-model="search.studentId" type="text"/>
+        </md-input-container>
+             <md-input-container class="hide-error-msg">
+          <label>שם</label>
+          <input  ng-model="search.fullName" type="text"/>
+        </md-input-container>   
+         <md-input-container >
+        <label>שכבה</label>
+        <md-select ng-model="search.classCode" class="searchSelect">
+          <md-option value=""><em>הכל</em></md-option>
+          <md-option ng-repeat="grade in classCodes|orderBy:grade" value="{{grade}}">{{grade}}</md-option>
+        </md-select>
+      </md-input-container>
+           <md-input-container >
+        <label>מספר כיתה</label>
+        <md-select ng-model="search.classNum" class="searchSelect">
+          <md-option value=""><em>הכל</em></md-option>
+          <md-option ng-repeat="num in classNums|orderBy:num" value="{{num}}">{{num}}</md-option>
+        </md-select>
+      </md-input-container>  
+          <md-button id="resetFilters" ng-click="search=undefined" ng-disabled="search==undefined">נקה</md-button>
+   </div>
+     <div layout='row' layout-margin >    
+          <md-checkbox ng-disabled="true" aria-label="Colour Map" class="invalidStudent">
+            לא תקין
+          </md-checkbox>
+         <md-checkbox ng-disabled="true" aria-label="Colour Map" class="wasValid">
+            היה תקין
+          </md-checkbox>
+         <md-checkbox ng-disabled="true" aria-label="Colour Map" class="existFamily">
+            משפחה קיימת
+          </md-checkbox>
+        </div>
+    <!--AMADTS Table-->
+    <md-card>
+      <md-content>
+        <md-table-container>
+          <table md-table>
+            <thead md-head class="table-title" md-order="query.order">
+              <tr md-row>
+                <th md-column  class="table-title" ng-repeat="column in autocolumn" md-order-by="{{column.name}}">
+                  <span>{{column.display}}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody md-body>
+              <tr md-row ng-class="{'invalidStudent':isInvalidStdent(student),'existFamily':isExistFamily(student),'wasValid':isWasValid(student)}" ng-repeat="student in students | filter:search | orderBy: query.order">
+                <td md-cell>{{student.studentId}}</td> 
+                <td md-cell>{{student.fullName}}</td>
+                <td md-cell>{{student.classNum}}</td>
+                 <td md-cell>{{student.classCode}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+      </md-content>
+    </md-card>
+  </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+    <script src="http://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.js"></script>
+     <script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.1/angular-material.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
